@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="8491489cbfa8474ab09a1e367c74b7e4" Name="Diagram1" ZoomLevel="98" >
+        <EntityTypeShape EntityType="CerberusDbModel.chatbot_config" Width="1.5" PointX="3" PointY="2.625" />
+        <EntityTypeShape EntityType="CerberusDbModel.msg_hist" Width="1.5" PointX="4.875" PointY="0.5" />
+        <EntityTypeShape EntityType="CerberusDbModel.chatbot_opt" Width="1.5" PointX="0.5" PointY="0.5" />
+        <AssociationConnector Association="CerberusDbModel.chatbot_configmsg_hist" />
+        <AssociationConnector Association="CerberusDbModel.chatbot_optchatbot_config" />
+        <EntityTypeShape EntityType="CerberusDbModel.fb_page" Width="1.5" PointX="0.5" PointY="3.25" />
+        <AssociationConnector Association="CerberusDbModel.chatbot_configfb_page" />
+        <EntityTypeShape EntityType="CerberusDbModel.jira_proj" Width="1.5" PointX="8.375" PointY="3.125" />
+        <EntityTypeShape EntityType="CerberusDbModel.jira_config" Width="1.5" PointX="5" PointY="3.625" />
+        <AssociationConnector Association="CerberusDbModel.jira_configchatbot_config" />
+        <AssociationConnector Association="CerberusDbModel.jira_configjira_proj" />
+        <EntityTypeShape EntityType="CerberusDbModel.sys_usr" Width="1.5" PointX="7" PointY="0.625" />
+        <EntityTypeShape EntityType="CerberusDbModel.sys_log" Width="1.5" PointX="8.75" PointY="0.625" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

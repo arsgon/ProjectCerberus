@@ -1,0 +1,221 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl" Namespace="CerberusDbModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2005">
+        <EntityContainer Name="CerberusDbModelTargetContainer" >
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="CerberusDbModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="CerberusDbModelContainer" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="chatbot_config" EntityType="CerberusDbModel.chatbot_config" />
+          <EntitySet Name="msg_hist" EntityType="CerberusDbModel.msg_hist" />
+          <EntitySet Name="chatbot_opt" EntityType="CerberusDbModel.chatbot_opt" />
+          <AssociationSet Name="chatbot_configmsg_hist" Association="CerberusDbModel.chatbot_configmsg_hist">
+            <End Role="msg_hist" EntitySet="msg_hist" />
+            <End Role="chatbot_config" EntitySet="chatbot_config" />
+          </AssociationSet>
+          <AssociationSet Name="chatbot_optchatbot_config" Association="CerberusDbModel.chatbot_optchatbot_config">
+            <End Role="chatbot_opt" EntitySet="chatbot_opt" />
+            <End Role="chatbot_config" EntitySet="chatbot_config" />
+          </AssociationSet>
+          <EntitySet Name="fb_page" EntityType="CerberusDbModel.fb_page" />
+          <AssociationSet Name="chatbot_configfb_page" Association="CerberusDbModel.chatbot_configfb_page">
+            <End Role="chatbot_config" EntitySet="chatbot_config" />
+            <End Role="fb_page" EntitySet="fb_page" />
+          </AssociationSet>
+          <EntitySet Name="jira_proj" EntityType="CerberusDbModel.jira_proj" />
+          <EntitySet Name="jira_config" EntityType="CerberusDbModel.jira_config" />
+          <AssociationSet Name="jira_configchatbot_config" Association="CerberusDbModel.jira_configchatbot_config">
+            <End Role="jira_config" EntitySet="jira_config" />
+            <End Role="chatbot_config" EntitySet="chatbot_config" />
+          </AssociationSet>
+          <AssociationSet Name="jira_configjira_proj" Association="CerberusDbModel.jira_configjira_proj">
+            <End Role="jira_config" EntitySet="jira_config" />
+            <End Role="jira_proj" EntitySet="jira_proj" />
+          </AssociationSet>
+          <EntitySet Name="sys_usr" EntityType="CerberusDbModel.sys_usr" />
+          <EntitySet Name="sys_log" EntityType="CerberusDbModel.sys_log" />
+        </EntityContainer>
+        <EntityType Name="chatbot_config">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="msg_hist" Relationship="CerberusDbModel.chatbot_configmsg_hist" FromRole="chatbot_config" ToRole="msg_hist" />
+          <Property Name="access_token" Type="String" Nullable="false" />
+          <Property Name="jira_proj_id" Type="Int32" Nullable="false" />
+          <Property Name="fb_page_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="chatbot_opt" Relationship="CerberusDbModel.chatbot_optchatbot_config" FromRole="chatbot_config" ToRole="chatbot_opt" />
+          <NavigationProperty Name="fb_page" Relationship="CerberusDbModel.chatbot_configfb_page" FromRole="chatbot_config" ToRole="fb_page" />
+          <NavigationProperty Name="jira_config" Relationship="CerberusDbModel.jira_configchatbot_config" FromRole="chatbot_config" ToRole="jira_config" />
+          <Property Name="name" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="msg_hist">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="sender" Type="String" Nullable="false" />
+          <Property Name="msg" Type="String" Nullable="false" />
+          <Property Name="timestamp" Type="DateTime" Nullable="false" />
+          <Property Name="status_http" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="chatbot_config" Relationship="CerberusDbModel.chatbot_configmsg_hist" FromRole="msg_hist" ToRole="chatbot_config" />
+          <Property Name="chatbot_config_id" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="chatbot_opt">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="opt_nro" Type="Int32" Nullable="false" />
+          <Property Name="opt_value" Type="String" Nullable="false" />
+          <Property Name="chatbot_config_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="chatbot_config" Relationship="CerberusDbModel.chatbot_optchatbot_config" FromRole="chatbot_opt" ToRole="chatbot_config" />
+        </EntityType>
+        <Association Name="chatbot_configmsg_hist">
+          <End Type="CerberusDbModel.msg_hist" Role="msg_hist" Multiplicity="*" />
+          <End Type="CerberusDbModel.chatbot_config" Role="chatbot_config" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="chatbot_config">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="msg_hist">
+              <PropertyRef Name="chatbot_config_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="chatbot_optchatbot_config">
+          <End Type="CerberusDbModel.chatbot_opt" Role="chatbot_opt" Multiplicity="*" />
+          <End Type="CerberusDbModel.chatbot_config" Role="chatbot_config" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="chatbot_config">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="chatbot_opt">
+              <PropertyRef Name="chatbot_config_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="fb_page">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="page_token" Type="String" Nullable="false" />
+          <Property Name="page_url" Type="String" Nullable="false" />
+          <Property Name="page_name" Type="String" Nullable="false" />
+          <NavigationProperty Name="chatbot_config" Relationship="CerberusDbModel.chatbot_configfb_page" FromRole="fb_page" ToRole="chatbot_config" />
+        </EntityType>
+        <Association Name="chatbot_configfb_page">
+          <End Type="CerberusDbModel.chatbot_config" Role="chatbot_config" Multiplicity="*" />
+          <End Type="CerberusDbModel.fb_page" Role="fb_page" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="fb_page">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="chatbot_config">
+              <PropertyRef Name="fb_page_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="jira_proj">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="proj_name" Type="String" Nullable="false" />
+          <Property Name="proj_key" Type="String" Nullable="false" />
+          <Property Name="jira_config_id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="jira_config" Relationship="CerberusDbModel.jira_configjira_proj" FromRole="jira_proj" ToRole="jira_config" />
+        </EntityType>
+        <EntityType Name="jira_config">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="url" Type="String" Nullable="false" />
+          <Property Name="status" Type="Boolean" Nullable="false" />
+          <Property Name="user" Type="String" Nullable="false" />
+          <Property Name="passwd" Type="String" Nullable="false" />
+          <NavigationProperty Name="chatbot_config" Relationship="CerberusDbModel.jira_configchatbot_config" FromRole="jira_config" ToRole="chatbot_config" />
+          <NavigationProperty Name="jira_proj" Relationship="CerberusDbModel.jira_configjira_proj" FromRole="jira_config" ToRole="jira_proj" />
+        </EntityType>
+        <Association Name="jira_configchatbot_config">
+          <End Type="CerberusDbModel.jira_config" Role="jira_config" Multiplicity="1" />
+          <End Type="CerberusDbModel.chatbot_config" Role="chatbot_config" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="jira_config">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="chatbot_config">
+              <PropertyRef Name="jira_proj_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="jira_configjira_proj">
+          <End Type="CerberusDbModel.jira_config" Role="jira_config" Multiplicity="1" />
+          <End Type="CerberusDbModel.jira_proj" Role="jira_proj" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="jira_config">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="jira_proj">
+              <PropertyRef Name="jira_config_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="sys_usr">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="username" Type="String" Nullable="false" />
+          <Property Name="password" Type="String" Nullable="false" />
+          <Property Name="email" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sys_log">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="msg" Type="String" Nullable="false" />
+          <Property Name="log_level" Type="String" Nullable="false" />
+          <Property Name="timestamp" Type="DateTime" Nullable="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs" Space="C-S">
+        <Alias Key="Model" Value="CerberusDbModel" />
+        <Alias Key="Target" Value="CerberusDbModel.Store" />
+        <EntityContainerMapping CdmEntityContainer="CerberusDbModelContainer" StorageEntityContainer="CerberusDbModelTargetContainer">
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
